@@ -2,18 +2,18 @@
   exception Erreur_de_syntaxe
 }
 
-
-(* A completer *)
-
+let space = [' ' '\t']
 
 rule sapin = parse
-| ... {...}
-
-
- (* A completer *)
-
-
-and (* A completer *)
+| space* ('*'+ as l) space* '\n' {
+  let n = String.length l in
+  if n mod 2 = 0 then
+    n :: (sapin lexbuf)
+  else
+    raise Erreur_de_syntaxe
+}
+| _ { raise Erreur_de_syntaxe }
+| eof { [] }
 
 {
   (* Ouverture du fichier et parsage *)
